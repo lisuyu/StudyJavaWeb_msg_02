@@ -1,6 +1,6 @@
 <%@ page import="test.msg.dao.DAOFactory" %>
 <%@ page import="test.msg.dao.IUserDao" %>
-<%@ page import="test.msg.model.ShopException" %>
+<%@ page import="test.msg.model.MsgException" %>
 <%@ page import="test.msg.model.User" %>
 <%--
   Created by IntelliJ IDEA.
@@ -18,10 +18,9 @@
     User user = new User();
     try {
         user = userDao.Login(username,password);
-        System.out.println(user);
         session.setAttribute("loginUser",user);
         response.sendRedirect(request.getContextPath()+"/admin/list.jsp");
-    } catch (ShopException e) {
+    } catch (MsgException e) {
 %>
     <h2 style="color:red;">
         发生错误：<%=e.getMessage()%>

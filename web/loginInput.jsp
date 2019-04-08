@@ -15,9 +15,9 @@
 <body>
 <form action="login.jsp" method="post">
     <table align="center" border="1">
-        <tr><td>用户名称</td><td><input type="text" name="username"></td></tr>
-        <tr><td>用户密码</td><td><input type="password" name="password"></td></tr>
-        <tr><td colspan="2"><input type="submit" value="登陆"></td></tr>
+        <tr><td>用户名称</td><td><input type="text" name="username" style="width: 200px"></td></tr>
+        <tr><td>用户密码</td><td><input type="password" name="password" style="width: 200px"></td></tr>
+        <tr><td colspan="2" align="center"><input type="submit" value="登陆"></td></tr>
     </table>
 </form>
 </body>

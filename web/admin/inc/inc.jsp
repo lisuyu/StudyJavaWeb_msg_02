@@ -12,5 +12,6 @@
 %>
 <div style="text-align: right;border-botton:1px solid #000;">
     欢迎[<%=u.getUsername()%>]使用本系统&nbsp&nbsp&nbsp<a href="<%=request.getContextPath()%>/admin/list.jsp">用户管理</a>&nbsp;&nbsp
+    <a href="updateSelfInput.jsp?id=<%=u.getId()%>">修改个人信息</a>
     &nbsp<a href="<%=request.getContextPath()%>/logout.jsp">退出系统</a>
 </div>

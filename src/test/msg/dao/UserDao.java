@@ -1,6 +1,6 @@
 package test.msg.dao;
 
-import test.msg.model.ShopException;
+import test.msg.model.MsgException;
 import test.msg.model.User;
 import test.msg.util.DBUtil;
 
@@ -24,7 +24,7 @@ public class UserDao implements IUserDao {
             preparedStatement.setString(1,user.getUsername());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                if (resultSet.getInt(1)>0) throw new ShopException("用户已经存在，不能继续添加。");
+                if (resultSet.getInt(1)>0) throw new MsgException("用户已经存在，不能继续添加。");
             }
             sql = "insert into t_user values (null,?,?,?,?,?)";
             preparedStatement = connection.prepareStatement(sql);
@@ -50,7 +50,7 @@ public class UserDao implements IUserDao {
         try {
             connection = DBUtil.getConnection();
             User user = load(id);
-            if (user.getUsername().equals("admin")) throw new ShopException("超级管理员账号不可删除");
+            if (user.getUsername().equals("admin")) throw new MsgException("超级管理员账号不可删除");
             String sql = "delete from t_user where id=?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,id);
@@ -169,10 +169,10 @@ public class UserDao implements IUserDao {
                 user.setStatus(resultSet.getInt("status"));
                 user.setType(resultSet.getInt("type"));
             }
-            if (user==null) throw new ShopException("用户名不存在");
-            if (!user.getPassword().equals(password)) throw new ShopException("密码不正确！");
+            if (user==null) throw new MsgException("用户名不存在");
+            if (!user.getPassword().equals(password)) throw new MsgException("密码不正确！");
             System.out.println(user.getStatus());
-            if (user.getStatus()==0) throw new ShopException("此用户已停用！");
+            if (user.getStatus()==0) throw new MsgException("此用户已停用！");
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
