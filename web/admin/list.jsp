@@ -2,7 +2,8 @@
 <%@ page import="test.msg.dao.IUserDao" %>
 <%@ page import="test.msg.model.User" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="test.msg.model.Pager" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2019/4/2 0002
@@ -16,10 +17,18 @@
 </head>
 <body>
 <%
+    int pageSize = 60;
+    int pageIndex = 1;
+    try {
+        pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
+    } catch (NumberFormatException e) {
+        e.printStackTrace();
+    }
     String con = request.getParameter("con");
     IUserDao userDao = DAOFactory.getUserDao();
+    Pager<User> pages = userDao.list(con,pageSize,pageIndex);
     List<User> list = new ArrayList<User>();
-    list = userDao.list(con);
+    list = pages.getDates();
     User loginUser = (User) session.getAttribute("loginUser");
     if (con==null){
         con="";
@@ -98,6 +107,39 @@
     <%
         }
     %>
+    <tr>
+        <td colspan="7">
+            一共有：<%=pages.getTotalRecord()%>条记录，当前是第<%=pageIndex%>页，每页显示<%=pageSize%>条记录
+        </td>
+    </tr>
+    <tr>
+        <td colspan="7">
+            <%
+                if (pageIndex>1){
+            %>
+            <a href="list.jsp?pageIndex=<%=pageIndex-1%>">上一页</a>
+            <%
+                }
+                int totalPage = pages.getTotalPage();
+                for (int i=1;i<=totalPage;i++){
+                    if (i==pageIndex){
+            %>
+                    <%=i%>
+            <%
+                    }else{
+            %>
+            <a href="list.jsp?pageIndex=<%=i%>">[<%=i%>]</a>
+            <%
+                    }
+                }
+                if (pageIndex<totalPage){
+            %>
+            <a href="list.jsp?pageIndex=<%=pageIndex+1%>">下一页</a>
+            <%
+                }
+            %>
+        </td>
+    </tr>
 </table>
 </body>
 </html>
