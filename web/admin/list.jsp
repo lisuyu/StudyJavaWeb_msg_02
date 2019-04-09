@@ -16,16 +16,26 @@
 </head>
 <body>
 <%
+    String con = request.getParameter("con");
     IUserDao userDao = DAOFactory.getUserDao();
     List<User> list = new ArrayList<User>();
-    list = userDao.list();
+    list = userDao.list(con);
     User loginUser = (User) session.getAttribute("loginUser");
-    System.out.println(loginUser);
+    if (con==null){
+        con="";
+    }
 %>
 <jsp:include page="../inc/user_manager_top.jsp">
     <jsp:param name="op" value="列表"/>
 </jsp:include>
 <table align="center" border="1">
+    <tr>
+        <td colspan="7" align="center">
+            <form method="post" action="list.jsp">
+                输入用户名或者昵称：<input type="text" name="con" value="<%=con%>"/><input type="submit" value="查询"/>
+            </form>
+        </td>
+    </tr>
     <tr><td>编号</td><td>用户名</td><td>密码</td><td>昵称</td>
         <td>用户状态</td><td>用户类型</td>
         <td>操作</td>
