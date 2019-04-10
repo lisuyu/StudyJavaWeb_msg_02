@@ -9,6 +9,6 @@ public interface IUserDao {
     public void delete(int id);
     public void update(User user);
     public User load(int id);
-    public Pager<User> list(String con, int pageSize, int pageIndex);
+    public Pager<User> list(String con);
     public User Login(String username, String password);
 }

@@ -2,6 +2,7 @@ package test.msg.dao;
 
 import test.msg.model.MsgException;
 import test.msg.model.Pager;
+import test.msg.model.SystemContext;
 import test.msg.model.User;
 import test.msg.util.DBUtil;
 
@@ -118,7 +119,9 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public Pager<User> list(String condition, int pageSize, int pageIndex) {
+    public Pager<User> list(String condition) {
+        int pageSize = SystemContext.getPageSize();
+        int pageOffset = SystemContext.getPageOffset();
         List<User> list = new ArrayList<User>();
         User user = null;
         Connection connection = null;
@@ -126,8 +129,6 @@ public class UserDao implements IUserDao {
         ResultSet resultSet = null;
         Pager<User> pages = new Pager<User>();
         try {
-            if (pageIndex<=0) pageIndex=1;
-            int start = (pageIndex-1)*pageSize;
             connection = DBUtil.getConnection();
             String sql = "select * from t_user";
             String sqlCount = "select count(*) from t_user";
@@ -138,20 +139,8 @@ public class UserDao implements IUserDao {
             }
             sql+=" limit ?,?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,start);
+            preparedStatement.setInt(1,pageOffset);
             preparedStatement.setInt(2,pageSize);
-//            if (condition==null||"".equals(condition)){
-//                sql+=" limit ?,?";
-//                preparedStatement=connection.prepareStatement(sql);
-//                preparedStatement.setInt(1,start);
-//                preparedStatement.setInt(2,pageSize);
-//            }else{
-//                sql+=" where username like ? or nickname like ?";
-//                System.out.println(sql);
-//                preparedStatement = connection.prepareStatement(sql);
-//                preparedStatement.setString(1,"%"+condition+"%");
-//                preparedStatement.setString(2,"%"+condition+"%");
-//            }
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 user = new User();
@@ -170,7 +159,7 @@ public class UserDao implements IUserDao {
                 totalRecord = resultSet.getInt(1);
             }
             int totalPage = (totalRecord-1)/pageSize+1;
-            pages.setPageIndex(pageIndex);
+            pages.setPageOffset(pageOffset);
             pages.setPageSize(pageSize);
             pages.setTotalPage(totalPage);
             pages.setTotalRecord(totalRecord);

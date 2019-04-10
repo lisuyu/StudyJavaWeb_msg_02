@@ -3,7 +3,8 @@
 <%@ page import="test.msg.model.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
-<%@ page import="test.msg.model.Pager" %><%--
+<%@ page import="test.msg.model.Pager" %>
+<%@ page import="test.msg.model.SystemContext" %><%--
   Created by IntelliJ IDEA.
   User: Administrator
   Date: 2019/4/2 0002
@@ -11,22 +12,16 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="pg" uri="http://jsptags.com/tags/navigation/pager"%>
 <html>
 <head>
     <title>用户列表</title>
 </head>
 <body>
 <%
-    int pageSize = 60;
-    int pageIndex = 1;
-    try {
-        pageIndex = Integer.parseInt(request.getParameter("pageIndex"));
-    } catch (NumberFormatException e) {
-        e.printStackTrace();
-    }
     String con = request.getParameter("con");
     IUserDao userDao = DAOFactory.getUserDao();
-    Pager<User> pages = userDao.list(con,pageSize,pageIndex);
+    Pager<User> pages = userDao.list(con);
     List<User> list = new ArrayList<User>();
     list = pages.getDates();
     User loginUser = (User) session.getAttribute("loginUser");
@@ -107,37 +102,37 @@
     <%
         }
     %>
+
     <tr>
         <td colspan="7">
-            一共有：<%=pages.getTotalRecord()%>条记录，当前是第<%=pageIndex%>页，每页显示<%=pageSize%>条记录
-        </td>
-    </tr>
-    <tr>
-        <td colspan="7">
-            <%
-                if (pageIndex>1){
-            %>
-            <a href="list.jsp?pageIndex=<%=pageIndex-1%>">上一页</a>
-            <%
-                }
-                int totalPage = pages.getTotalPage();
-                for (int i=1;i<=totalPage;i++){
-                    if (i==pageIndex){
-            %>
-                    <%=i%>
-            <%
+            <pg:pager items="<%=pages.getTotalRecord()%>" maxPageItems="<%=pages.getPageSize()%>" maxIndexPages="20" export="curPage=pageNumber">
+                一共有：<%=pages.getTotalRecord()%>条记录，当前是第<%=curPage%>页，共<%=pages.getTotalPage()%>页
+                <pg:first export="pageUrl,firstItem">
+                    <a href="<%=pageUrl%>">首页</a>
+                </pg:first>
+                <pg:prev>
+                    <a href="<%=pageUrl%>">上一页</a>
+                </pg:prev>
+                <pg:pages>
+                    <%
+                        if(curPage==pageNumber){
+                    %>
+                    [<%=pageNumber%>]
+                    <%
                     }else{
-            %>
-            <a href="list.jsp?pageIndex=<%=i%>">[<%=i%>]</a>
-            <%
-                    }
-                }
-                if (pageIndex<totalPage){
-            %>
-            <a href="list.jsp?pageIndex=<%=pageIndex+1%>">下一页</a>
-            <%
-                }
-            %>
+                    %>
+                    <a href="<%=pageUrl%>"><%=pageNumber%></a>
+                    <%
+                        }
+                    %>
+                </pg:pages>
+                <pg:next>
+                    <a href="<%=pageUrl%>">下一页</a>
+                </pg:next>
+                <pg:last>
+                    <a href="<%=pageUrl%>">尾页</a>
+                </pg:last>
+            </pg:pager>
         </td>
     </tr>
 </table>

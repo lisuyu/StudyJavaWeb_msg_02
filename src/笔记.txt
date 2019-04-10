@@ -1,0 +1,22 @@
+git 修改远程仓库
+1.在项目根目录文件夹中打开git bush
+2.输入
+
+    git remote set-url origin [这里写新仓库的链接]
+
+
+将一个参数，从页面层，表示层传递到后台可以使用Threadlocal
+
+
+
+使用pager-taglib完成分页
+（将pager.war拷贝到tomcat中，然后启动tomcat，直接双击一次，会在webapp中将其解压）
+
+
+    首先导入jar包：pager-src.jar   pager-taglib.jar
+
+    然后导入标签库：（在page-taglib.jar中的taglib.tld中可以看到）
+    <%@taglib prefix="pg" uri="http://jsptags.com/tags/navigation/pager"%>
+
+<pg:pager
+    id="value">

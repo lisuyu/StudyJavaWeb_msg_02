@@ -12,6 +12,10 @@ public class Pager<E> {
      */
     private int pageSize;
     /*
+    分页的开始值
+     */
+    private int pageOffset;
+    /*
     总共多少条记录
      */
     private int totalRecord;
@@ -62,5 +66,13 @@ public class Pager<E> {
 
     public void setDates(List<E> dates) {
         this.dates = dates;
+    }
+
+    public int getPageOffset() {
+        return pageOffset;
+    }
+
+    public void setPageOffset(int pageOffset) {
+        this.pageOffset = pageOffset;
     }
 }
