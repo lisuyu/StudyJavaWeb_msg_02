@@ -26,6 +26,7 @@ public class UserDao implements IUserDao {
             preparedStatement.setString(1,user.getUsername());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
+                //新添加的用户resultSet的结果为0
                 if (resultSet.getInt(1)>0) throw new MsgException("用户已经存在，不能继续添加。");
             }
             sql = "insert into t_user values (null,?,?,?,?,?)";
@@ -134,7 +135,6 @@ public class UserDao implements IUserDao {
             String sqlCount = "select count(*) from t_user";
             if (condition!=null||"".equals(condition)){
                 sql+=" where username like '%"+condition+"%' or nickname like '%"+condition+"%'";
-                System.out.println(sql);
                 sqlCount+=" where username like '%"+condition+"%' or nickname like '%"+condition+"%'";
             }
             sql+=" limit ?,?";
@@ -161,8 +161,8 @@ public class UserDao implements IUserDao {
             int totalPage = (totalRecord-1)/pageSize+1;
             pages.setPageOffset(pageOffset);
             pages.setPageSize(pageSize);
-            pages.setTotalPage(totalPage);
-            pages.setTotalRecord(totalRecord);
+            pages.setTotalPages(totalPage);
+            pages.setTotalRecords(totalRecord);
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

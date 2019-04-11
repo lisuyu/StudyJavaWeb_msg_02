@@ -4,10 +4,6 @@ import java.util.List;
 
 public class Pager<E> {
     /*
-    第几页
-     */
-    private int pageIndex;
-    /*
     每页显示多少条
      */
     private int pageSize;
@@ -18,23 +14,15 @@ public class Pager<E> {
     /*
     总共多少条记录
      */
-    private int totalRecord;
+    private int totalRecords;
     /*
     总共多少页
      */
-    private int totalPage;
+    private int totalPages;
     /*
     放置具体数据
      */
     private List<E> dates;
-
-    public int getPageIndex() {
-        return pageIndex;
-    }
-
-    public void setPageIndex(int pageIndex) {
-        this.pageIndex = pageIndex;
-    }
 
     public int getPageSize() {
         return pageSize;
@@ -44,20 +32,28 @@ public class Pager<E> {
         this.pageSize = pageSize;
     }
 
-    public int getTotalRecord() {
-        return totalRecord;
+    public int getPageOffset() {
+        return pageOffset;
     }
 
-    public void setTotalRecord(int totalRecord) {
-        this.totalRecord = totalRecord;
+    public void setPageOffset(int pageOffset) {
+        this.pageOffset = pageOffset;
     }
 
-    public int getTotalPage() {
-        return totalPage;
+    public int getTotalRecords() {
+        return totalRecords;
     }
 
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
+    public void setTotalRecords(int totalRecords) {
+        this.totalRecords = totalRecords;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
     public List<E> getDates() {
@@ -66,13 +62,5 @@ public class Pager<E> {
 
     public void setDates(List<E> dates) {
         this.dates = dates;
-    }
-
-    public int getPageOffset() {
-        return pageOffset;
-    }
-
-    public void setPageOffset(int pageOffset) {
-        this.pageOffset = pageOffset;
     }
 }

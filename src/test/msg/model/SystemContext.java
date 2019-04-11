@@ -3,8 +3,6 @@ package test.msg.model;
 public class SystemContext {
     private static ThreadLocal<Integer> pageSize = new ThreadLocal<Integer>();
 
-    private static ThreadLocal<Integer> pageIndex = new ThreadLocal<Integer>();
-
     private static ThreadLocal<Integer> PageOffset = new ThreadLocal<Integer>();
 
     public static void setPageSize(int _pageSize){
@@ -17,18 +15,6 @@ public class SystemContext {
 
     public static void removePageSize(){
         pageSize.remove();
-    }
-
-    public static void setPageIndex(int _pageSize){
-        pageIndex.set(_pageSize);
-    }
-
-    public static int getPageIndex(){
-        return pageIndex.get();
-    }
-
-    public static void removePageIndex(){
-        pageIndex.remove();
     }
 
     public static void setPageOffset(int _pageOffset){

@@ -3,6 +3,7 @@ package test.msg.filter;
 import test.msg.model.SystemContext;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class SystemContextFilter implements Filter {
@@ -21,10 +22,11 @@ public class SystemContextFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest)servletRequest;
         try {
             int pageOffset = 1;
             try {
-                pageOffset = Integer.parseInt(servletRequest.getParameter("pager.offset"));
+                pageOffset = Integer.parseInt(request.getParameter("pager.offset"));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }

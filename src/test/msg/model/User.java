@@ -82,6 +82,5 @@ public class User {
                 '}';
     }
 
-    public User() {
-    }
+    public User() {}
 }

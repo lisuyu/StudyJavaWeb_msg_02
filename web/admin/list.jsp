@@ -22,8 +22,7 @@
     String con = request.getParameter("con");
     IUserDao userDao = DAOFactory.getUserDao();
     Pager<User> pages = userDao.list(con);
-    List<User> list = new ArrayList<User>();
-    list = pages.getDates();
+    List<User> list = pages.getDates();
     User loginUser = (User) session.getAttribute("loginUser");
     if (con==null){
         con="";
@@ -105,34 +104,10 @@
 
     <tr>
         <td colspan="7">
-            <pg:pager items="<%=pages.getTotalRecord()%>" maxPageItems="<%=pages.getPageSize()%>" maxIndexPages="20" export="curPage=pageNumber">
-                一共有：<%=pages.getTotalRecord()%>条记录，当前是第<%=curPage%>页，共<%=pages.getTotalPage()%>页
-                <pg:first export="pageUrl,firstItem">
-                    <a href="<%=pageUrl%>">首页</a>
-                </pg:first>
-                <pg:prev>
-                    <a href="<%=pageUrl%>">上一页</a>
-                </pg:prev>
-                <pg:pages>
-                    <%
-                        if(curPage==pageNumber){
-                    %>
-                    [<%=pageNumber%>]
-                    <%
-                    }else{
-                    %>
-                    <a href="<%=pageUrl%>"><%=pageNumber%></a>
-                    <%
-                        }
-                    %>
-                </pg:pages>
-                <pg:next>
-                    <a href="<%=pageUrl%>">下一页</a>
-                </pg:next>
-                <pg:last>
-                    <a href="<%=pageUrl%>">尾页</a>
-                </pg:last>
-            </pg:pager>
+            <jsp:include page="../inc/pager.jsp">
+                <jsp:param value="<%=pages.getTotalRecords()%>" name="items"/>
+                <jsp:param value="con" name="params"/>
+            </jsp:include>
         </td>
     </tr>
 </table>
